@@ -29,3 +29,15 @@ const server = app.listen(port, listening);
 function listening() {
 	console.log(`server running on ${port}`);
 }
+
+//Setup GET route
+app.get('/all', function (req, res) {
+	res.send(projectData);
+});
+
+//Setup POST route
+app.post('/all', addWeather);
+
+function addWeather (req, res) {
+	data.push(req.body);
+};
