@@ -11,12 +11,14 @@ const app = express();
 //Here we are configuring express to use body-parser as middle-ware.
 const bodyParser = require('body-parser');
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-
 // Cors for cross origin allowance
 const cors = require('cors');
 app.use(cors());
+
+//Load bodyParser
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
 
 // Initialize the main project folder
 app.use(express.static('website'));
@@ -36,8 +38,13 @@ app.get('/all', function (req, res) {
 });
 
 //Setup POST route
-app.post('/all', addWeather);
+app.post('/addWeather', addWeather);
 
 function addWeather (req, res) {
-	data.push(req.body);
+	let data = req.body;
+	
+	projectData["date"] = data.date;
+	projectData["temp"] = data.temp;
+	projectData["content"] = data.content;
+	res.send(projectData);
 };
