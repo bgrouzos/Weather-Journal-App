@@ -25,7 +25,10 @@ const weatherResponse = () => {
 	.then(function(newData){
 		console.log(newData);
 		postData('/addWeather', {date:newDate, temp:newData.main.temp, content: feelings});
-})};
+})
+	.then(() => updateUI());
+
+};
 
 //Create async function to communicate with API
 const getData = async (url) => {
@@ -50,13 +53,30 @@ const postData = async (url = '', data = {}) =>{
 		body: JSON.stringify(data),
 	});
 	try {
-		const update = await response.text();
+		const update = await response.json();
 			return update;
 			console.log(update);
 	} catch(error) {
 		console.log("error", error);
 	}
 };
+
+//Function to update UI
+const updateUI = async() =>{
+	const request = await fetch('/addWeather');
+
+	try {
+		const allData = await request.json()
+		console.log(allData)
+
+		document.getElementById('temp').innerHTML = Math.round(allData.temp)+'degrees';
+		document.getElementById('content').innerHTML = allData.feel;
+		document.getElementById('date').innterHTML = allData.date;
+	}
+	catch(error) {
+		console.log('error', error);
+	}
+}
 
 //set event listener
 document.getElementById("generate").addEventListener("click", weatherResponse);
