@@ -38,7 +38,7 @@ app.get('/all', function (req, res) {
 });
 
 //Setup POST route
-app.post('/addWeather', addWeather);
+app.post('/add', addWeather);
 
 function addWeather (req, res) {
 	let data = req.body;
